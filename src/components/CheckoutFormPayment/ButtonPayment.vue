@@ -24,6 +24,12 @@ export default {
       }).catch((value) => {
         console.log('catch', value)
       })
+
+      this.$store.state.formCreditCard.validator.validateAll().then((value) => {
+        console.log('opa', value)
+      }).catch((value) => {
+        console.log('catch', value)
+      })
     },
   }
 }

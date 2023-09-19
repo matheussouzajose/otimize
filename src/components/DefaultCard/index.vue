@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import IconSvg from "@/components/Icon/index.vue";
+import IconSvg from '@/components/Icon/index.vue'
 
 export default {
   name: 'CardInfo',

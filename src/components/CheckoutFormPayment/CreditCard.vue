@@ -7,7 +7,7 @@
               @update:value="handleUpdateField"
               name="creditCardNumber"
               label="Número do cartão"
-              v-model="form.creditCardNumber"
+              v-model="formCreditCard.input.creditCardNumber"
               rules="required"
               placeholder="Digite somente os números"
               v-mask="'#### #### #### ####'"
@@ -20,7 +20,7 @@
               @update:value="handleUpdateField"
               name="creditCardName"
               label="Titular do Cartão"
-              v-model="form.creditCardName"
+              v-model="formCreditCard.input.creditCardName"
               rules="required"
               placeholder="Digite o nome impresso no cartão"
           />
@@ -31,7 +31,7 @@
               @update:value="handleUpdateField"
               name="documentNumber"
               label="CPF/CNPJ do Titular"
-              v-model="form.documentNumber"
+              v-model="formCreditCard.input.documentNumber"
               rules="required"
               placeholder="Para emissão da nota fiscal"
           />
@@ -44,10 +44,10 @@
               <select-field
                   id="creditCardMonthValue"
                   name="creditCardMonthValue"
-                  v-model="form.creditCardMonthValue"
+                  v-model="formCreditCard.input.creditCardMonthValue"
                   label-option="Mês"
                   v-validate="'required'"
-                  :options-list="monthList"
+                  :options-list="months"
                   @update:value="handleUpdateField"
               />
             </div>
@@ -56,10 +56,10 @@
               <select-field
                   id="creditCardYearValue"
                   name="creditCardYearValue"
-                  v-model="form.creditCardYearValue"
+                  v-model="formCreditCard.input.creditCardYearValue"
                   label-option="Ano"
                   v-validate="'required'"
-                  :options-list="yearList"
+                  :options-list="years"
                   @update:value="handleUpdateField"
                   :show-msg-error="false"
               />
@@ -72,7 +72,7 @@
               @update:value="handleUpdateField"
               name="creditCardCVV"
               label="CVV"
-              v-model="form.creditCardCVV"
+              v-model="formCreditCard.input.creditCardCVV"
               rules="required"
               placeholder="CVV"
               :show-msg-error="false"
@@ -83,7 +83,7 @@
           <select-field
               id="installmentsNumberValue"
               name="installmentsNumberValue"
-              v-model="form.installmentsNumberValue"
+              v-model="formCreditCard.input.installmentsNumberValue"
               label-option="Selecione as parcelas"
               v-validate="'required'"
               :options-list="installmentsNumber"
@@ -103,16 +103,16 @@
             </div>
 
           </div>
-          <div>{{ form.creditCardNumber || '#### #### #### ####'}}</div>
+          <div>{{ formCreditCard.input.creditCardNumber || '#### #### #### ####'}}</div>
           <div class="flex justify-between">
             <div>
               <div>Titular</div>
-              <div>{{ form.creditCardName.toUpperCase() || 'NOME COMPLETO'}}</div>
+              <div>{{ formCreditCard.input.creditCardName.toUpperCase() || 'NOME COMPLETO'}}</div>
             </div>
             <div>
               <div>Validade</div>
               <div>
-                {{ form.creditCardMonthValue  || 'MÊS'}} / {{ form.creditCardYearValue || 'ANO'}}
+                {{ formCreditCard.input.creditCardMonthValue  || 'MÊS'}} / {{ formCreditCard.input.creditCardYearValue || 'ANO'}}
               </div>
             </div>
           </div>
@@ -133,46 +133,42 @@
 import PurchaseDetailFactory from '@/components/PurchaseDetailFactory/index.vue'
 import IconSvg from '@/components/Icon/index.vue'
 import InputField from '@/components/InputField/index.vue'
-import SelectField from "@/components/SelectField/index.vue";
-import { mapMutations } from 'vuex'
-import visa from '@/assets/images/credit-card-flag-visa.png'
+import SelectField from '@/components/SelectField/index.vue'
+import { mapMutations, mapState } from 'vuex'
+import regexFlags from '@/utils/regex-flags'
+import flagImage from '@/utils/flag-image'
 
 export default {
   name: 'CheckoutCreditCard',
-  components: {SelectField, InputField, IconSvg, PurchaseDetailFactory},
+  components: {
+    SelectField,
+    InputField,
+    IconSvg,
+    PurchaseDetailFactory
+  },
   data() {
     return {
-      product: {
-        name: 'Valor do produto',
-        value: 50
-      },
       flag: '',
-      flagImage: {
-        visa: visa,
-        mastercard: 'MASTERCARD',
-        diners: 'DINERES',
-        amex: 'AMEX',
-        hipercard: 'HIPERCARD',
-        elo: 'ELO',
-      },
-      regexFlags: {
-        visa: /^4[0-9]{15}$/,
-        mastercard: /^(50|5[6-9]|6007|6220|6304|6703|6708|6759|676[1-3])|((5(([1-2]|[4-5])[0-9]{8}|0((1|6)([0-9]{7}))|3(0(4((0|[2-9])[0-9]{5})|([0-3]|[5-9])[0-9]{6})|[1-9][0-9]{7})))|((508116)\\d{4,10})|((502121)\\d{4,10})|((589916)\\d{4,10})|(2[0-9]{15})|(67[0-9]{14})|(506387)\\d{4,10})/,
-        diners: /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
-        amex: /^3[47][0-9]{13}$/,
-        hipercard: /^606282|^3841(?:[0|4|6]{1})0/,
-        elo: /^4011(78|79)|^43(1274|8935)|^45(1416|7393|763(1|2))|^50(4175|6699|67[0-6][0-9]|677[0-8]|9[0-8][0-9]{2}|99[0-8][0-9]|999[0-9])|^627780|^63(6297|6368|6369)|^65(0(0(3([1-3]|[5-9])|4([0-9])|5[0-1])|4(0[5-9]|[1-3][0-9]|8[5-9]|9[0-9])|5([0-2][0-9]|3[0-8]|4[1-9]|[5-8][0-9]|9[0-8])|7(0[0-9]|1[0-8]|2[0-7])|9(0[1-9]|[1-6][0-9]|7[0-8]))|16(5[2-9]|[6-7][0-9])|50(0[0-9]|1[0-9]|2[1-9]|[3-4][0-9]|5[0-8]))/,
-      }
+      flagImage,
+      regexFlags,
+      installmentsNumber: [{
+        value: 50,
+        label: '1x de R$ 50,00'
+      }]
     }
   },
   created() {
-    this.updateForm({ field: 'validatorPayment', value: this.$validator})
+    this.updateFormCreditCard(
+        { field: 'validator', value: this.$validator}
+    )
   },
   methods: {
-    ...mapMutations(['updateForm']),
+    ...mapMutations(['updateFormInputCreditCard', 'updateFormCreditCard']),
 
-    handleUpdateField({field, value}) {
-      this.updateForm({field, value})
+    handleUpdateField({ field, value }) {
+      this.updateFormInputCreditCard({
+        field, value
+      })
     },
 
     handleSelectFlag(value) {
@@ -186,7 +182,11 @@ export default {
     }
   },
   computed: {
-    monthList() {
+    ...mapState({
+      formCreditCard: 'formCreditCard'
+    }),
+
+    months() {
       const months = [
         "Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
         "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"
@@ -200,7 +200,7 @@ export default {
       })
     },
 
-    yearList() {
+    years() {
       const date = new Date();
       const year = date.getFullYear();
       const years = [];
@@ -214,20 +214,6 @@ export default {
       }
       return years
     },
-
-    installmentsNumber() {
-      return [{
-        value: 50,
-        label: '1x de R$ 50,00'
-      }]
-    },
-
-    form() {
-      return this.$store.state.form
-    },
-    errors() {
-      return this.$store.state.errors;
-    }
   }
 }
 </script>

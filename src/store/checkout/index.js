@@ -24,6 +24,22 @@ export default new Vuex.Store({
             errors: {},
             validator: null
         },
+        formCreditCard: {
+            input: {
+                creditCardName: '',
+                creditCardNumber: '',
+                documentNumber: '',
+                creditCardMonthValue: '',
+                creditCardMonthLabel: '',
+                creditCardYearValue: '',
+                creditCardYearLabel: '',
+                installmentsNumberValue: '',
+                installmentsNumberLabel: '',
+                creditCardCVV: ''
+            },
+            errors: {},
+            validator: null
+        },
         form: {
             name: '',
             email: '',
@@ -76,6 +92,12 @@ export default new Vuex.Store({
         },
         updateForm(state, {field, value}) {
             state.form[field] = value
+        },
+        updateFormInputCreditCard(state, {field, value}) {
+            state.formCreditCard.input[field] = value
+        },
+        updateFormCreditCard(state, { field, value }) {
+            state.formCreditCard[field] = value
         },
         defineErrors(state, errors) {
             state.errors = errors;
