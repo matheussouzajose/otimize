@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'ButtonCard',
   props: {
@@ -17,19 +19,23 @@ export default {
       required: true
     }
   },
+  computed: {
+    ...mapState({
+      formUser: 'formUser',
+      formCreditCard: 'formCreditCard',
+    })
+  },
   methods: {
-    handleSendForm() {
-      this.$store.state.formUser.validator.validateAll().then((value) => {
-        console.log('opa', value)
-      }).catch((value) => {
-        console.log('catch', value)
-      })
+    async handleSendForm() {
+      const user = await this.formUser.validator.validateAll()
+      const creditCard = await this.formCreditCard.validator.validateAll()
 
-      this.$store.state.formCreditCard.validator.validateAll().then((value) => {
-        console.log('opa', value)
-      }).catch((value) => {
-        console.log('catch', value)
-      })
+      if (user && creditCard) {
+        this.$emit('Purchase')
+        return
+      }
+
+      this.$emit('PurchaseFail')
     },
   }
 }
