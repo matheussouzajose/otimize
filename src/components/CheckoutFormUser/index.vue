@@ -4,6 +4,7 @@
       <div class="col-span-2">
         <InputField
             @update:value="handleUpdateField"
+            @focus="handleFocus"
             name="name"
             label="Nome"
             v-model="formUser.input.name"
@@ -15,6 +16,7 @@
       <div class="col-span-2">
         <InputField
             @update:value="handleUpdateField"
+            @focus="handleFocus"
             name="email"
             label="Email"
             v-model="formUser.input.email"
@@ -26,6 +28,7 @@
       <div class="col-span-1">
         <InputField
             @update:value="handleUpdateField"
+            @focus="handleFocus"
             name="cellphone"
             label="Telefone"
             v-model="formUser.input.cellphone"
@@ -38,6 +41,7 @@
       <div class="col-span-1">
         <InputField
             @update:value="handleUpdateField"
+            @focus="handleFocus"
             name="zipcode"
             label="CEP"
             v-model="formUser.input.zipcode"
@@ -51,6 +55,7 @@
       <div class="col-span-2">
         <InputField
             @update:value="handleUpdateField"
+            @focus="handleFocus"
             name="address"
             label="Endereço"
             v-model="formUser.input.address"
@@ -63,7 +68,6 @@
       <div class="flex flex-col items-start self-stretch gap-2 ">
         <label for="number" class="text-md font-normal font-sans leading-5">Número</label>
         <div
-            :class="{ 'border-red-500': errors.has('number') && !isCheckedNumber }"
             class="flex w-full border border-gray-300 rounded focus:outline focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
         >
           <div class="basis-1/2">
@@ -90,12 +94,12 @@
             </label>
           </div>
         </div>
-        <span class="text-red-500" v-if="errors.has('number') && !isCheckedNumber">{{ errors.first('number') }}</span>
       </div>
 
       <div class="col-span-1">
         <InputField
             @update:value="handleUpdateField"
+            @focus="handleFocus"
             name="complement"
             label="Complemento"
             v-model="formUser.input.complement"
@@ -106,6 +110,7 @@
       <div class="col-span-2">
         <InputField
             @update:value="handleUpdateField"
+            @focus="handleFocus"
             name="neighborhood"
             label="Bairro"
             v-model="formUser.input.neighborhood"
@@ -118,6 +123,7 @@
       <div class="col-span-1">
         <InputField
             @update:value="handleUpdateField"
+            @focus="handleFocus"
             name="city"
             label="Cidade"
             v-model="formUser.input.city"
@@ -161,6 +167,28 @@ export default {
   created() {
     this.updateFormUser({ field: 'validator', value: this.$validator})
   },
+  watch: {
+    'formUser.input.email'() {
+      if (this.formUser.input.name) {
+        this.$emit('AddToCart')
+      }
+    },
+    'formUser.input.cellphone'() {
+      if (this.formUser.input.name) {
+        this.$emit('AddToCart')
+      }
+    },
+    'formUser.input.zipcode'() {
+      if (this.formUser.input.number) {
+        this.$emit('number')
+      }
+    },
+    'formUser.input.number'() {
+      if (this.formUser.input.zipcode) {
+        this.$emit('number')
+      }
+    }
+  },
   methods: {
     ...mapMutations(['updateFormInputUser', 'updateFormUser']),
 
@@ -168,6 +196,10 @@ export default {
       if (!value || value.length < 9) return
 
       viaCep.getAddressByZipCode(value.replace(/-/g, ''))
+    },
+
+    handleFocus() {
+      this.$emit('InitiateCheckout')
     },
 
     handleUpdateField({ field, value }) {

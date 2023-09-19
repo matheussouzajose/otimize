@@ -11,6 +11,7 @@
         :class="{'border-red-500 focus:ring-red-500 focus:border-red-500': errors.has(name)}"
         :placeholder="placeholder"
         @blur="onBlur"
+        @focus="focus"
     />
     <span class="text-red-500" v-if="errors.has(name) && showMsgError">{{ errors.first(name) }}</span>
   </div>
@@ -51,6 +52,9 @@ export default {
   methods: {
     onBlur() {
       this.$emit('blur', this.value)
+    },
+    focus() {
+      this.$emit('focus')
     }
   }
 };
