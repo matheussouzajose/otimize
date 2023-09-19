@@ -29,7 +29,7 @@
           subtitle="A cada renovação da assinatura enviaremos um código PIX. Assim, você fica sempre em dia sem se preocupar."/>
     </div>
 
-    <purchase-detail-factory :product="product">
+    <purchase-detail-factory>
       <input-document-number />
     </purchase-detail-factory>
   </div>
@@ -42,12 +42,6 @@ import InputDocumentNumber from '@/components/PurchaseDetailFactory/InputDocumen
 
 export default {
   name: 'CheckoutPix',
-  props: {
-    product: {
-      type: Object,
-      required: true
-    }
-  },
   components: {
     InputDocumentNumber,
     PurchaseDetailFactory,

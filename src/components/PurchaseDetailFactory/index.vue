@@ -11,13 +11,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'PurchaseDetailFactory',
-  props: {
-    product: {
-      type: Object,
-      required: true
-    }
+
+  computed: {
+    ...mapState({
+      product: 'product'
+    })
   }
 }
 </script>

@@ -27,14 +27,14 @@
     </div>
 
     <div class="py-6 flex flex-col">
-      <checkout-factory :name="active" :product="product" />
+      <checkout-factory :name="active" />
 
       <button @click="handleSendForm" class="bg-orange-500 mt-6 rounded w-2/3 h-14 text-white text-lg font-medium">
         Comprar Agora
       </button>
 
       <div class="mt-10 self-center">
-        <img src="../../assets/images/otimize-security.png">
+        <img :src="securityImg" alt="security">
       </div>
     </div>
 
@@ -44,6 +44,7 @@
 <script>
 import PaymentCard from '@/components/CheckoutPaymentCard/index.vue'
 import CheckoutFactory from '@/components/CheckoutCardFactory/index.vue'
+import securityImg from '@/assets/images/otimize-security.png'
 
 export default {
   name: 'CheckoutFormPayment',
@@ -53,6 +54,7 @@ export default {
   },
   data() {
     return {
+      securityImg,
       active: 'CheckoutCreditCard',
       creditCard: {
         name: 'CheckoutCreditCard',
@@ -68,16 +70,7 @@ export default {
         name: 'CheckoutTicket',
         title: 'Boleto',
         icon: 'TicketIcon',
-      },
-      product: {
-        name: 'Nome do produto',
-        value: 50
       }
-    }
-  },
-  watch: {
-    active(value) {
-      console.log('active', value)
     }
   },
   methods: {

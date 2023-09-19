@@ -15,7 +15,7 @@
 
     </div>
 
-    <purchase-detail-factory :product="product">
+    <purchase-detail-factory>
       <input-document-number />
     </purchase-detail-factory>
   </div>
@@ -28,12 +28,6 @@ import InputDocumentNumber from "@/components/PurchaseDetailFactory/InputDocumen
 
 export default {
   name: 'TicketPayment',
-  props: {
-    product: {
-      type: Object,
-      required: true
-    }
-  },
   components: {
     InputDocumentNumber,
     PurchaseDetailFactory,

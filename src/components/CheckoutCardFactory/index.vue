@@ -1,5 +1,5 @@
 <template>
-  <component :is="name" :product="product"/>
+  <component :is="name"/>
 </template>
 
 <script>
@@ -17,10 +17,6 @@ export default {
   props: {
     name: {
       Type: String,
-      required: true
-    },
-    product: {
-      Type: Object,
       required: true
     }
   }

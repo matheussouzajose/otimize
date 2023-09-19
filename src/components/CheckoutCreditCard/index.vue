@@ -120,7 +120,7 @@
       </div>
     </div>
 
-    <purchase-detail-factory :product="product">
+    <purchase-detail-factory>
       <div class="flex gap-2">
         <icon-svg name="CreditCardIcon"/>
         <div class="text-sm">Essa cobrança aparecerá na sua fatura como: PAYT*NomeDoProduto</div>
