@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import PaymentCard from '@/components/CheckoutPaymentCard/index.vue'
+import PaymentCard from '@/components/CheckoutFormPayment/PaymentCard.vue'
 import CheckoutFactory from '@/components/CheckoutCardFactory/index.vue'
 import securityImg from '@/assets/images/otimize-security.png'
 
