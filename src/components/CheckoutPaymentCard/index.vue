@@ -3,7 +3,7 @@
     <nav
         @click="emitSelectedValue"
         class="w-36 h-16 flex cursor-pointer p-2 justify-center align-center bg-white border border-gray-300 rounded-lg"
-        :class="{'border-orange-600 bg-orange-200': active}"
+        :class="{'border-orange-600 bg-gradient-to-r from-orange-100 to-orange-300': active}"
     >
       <div class="flex flex-col p-2 items-start text-gray-100">
         <icon-svg :name="icon" width="48" height="40" />

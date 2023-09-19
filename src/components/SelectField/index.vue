@@ -1,24 +1,26 @@
 <template>
-  <div class="flex flex-col items-start self-stretch gap-2">
+  <div class="flex flex-col items-start self-stretch">
     <label class="text-md font-normal font-sans leading-5" :for="name">{{ label }}</label>
-    <input
+    <select
         :id="name"
         :name="name"
         v-model="input"
         v-validate="rules"
         :disabled="disabled"
-        class="flex gap-2.5 self-stretch px-4 py-2 border border-gray-300 rounded focus:outline focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-400"
-        :class="{'border-red-500 focus:ring-red-500 focus:border-red-500': errors.has(name)}"
         :placeholder="placeholder"
-        @blur="onBlur"
-    />
+        class="flex gap-2.5 self-stretch px-4 py-2 bg-white border border-gray-300 rounded focus:outline focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-400"
+        :class="{'border-red-500 focus:ring-red-500 focus:border-red-500': errors.has(name)}"
+    >
+      <option value="" disabled>{{ labelOption }}</option>
+      <option v-for="option in optionsList" :key="option.value" :value="option.value">{{ option.label }}</option>
+    </select>
     <span class="text-red-500" v-if="errors.has(name) && showMsgError">{{ errors.first(name) }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'InputField',
+  name: 'SelectField',
   props: {
     name: String,
     label: String,
@@ -32,7 +34,9 @@ export default {
     showMsgError: {
       type: Boolean,
       default: true
-    }
+    },
+    labelOption: String,
+    optionsList: Array
   },
   inject: ['$validator'],
   computed: {
@@ -46,11 +50,6 @@ export default {
       set(newValue) {
         this.$emit('update:value', { field: this.name, value: newValue })
       }
-    }
-  },
-  methods: {
-    onBlur() {
-      this.$emit('blur', this.value)
     }
   }
 };

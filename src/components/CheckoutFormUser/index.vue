@@ -135,14 +135,11 @@
           </select>
         </div>
       </div>
-
     </form>
-    <button @click="handleSendForm" class="bg-orange-500 w-10 h-10">Enviar</button>
   </div>
 </template>
 
 <script>
-import { mask } from 'vue-the-mask'
 import InputField from '@/components/InputField/index.vue'
 import { mapMutations } from 'vuex'
 import useViaCep from '@/hooks/useViaCep'
@@ -151,7 +148,6 @@ const viaCep = useViaCep()
 
 export default {
   name: 'CheckoutFormUser',
-  directives: { mask },
   components: {
     InputField
   },
@@ -160,6 +156,9 @@ export default {
       isCheckedNumber: false,
       stateSelectedOption: '',
     }
+  },
+  created() {
+    this.updateForm({ field: 'validatorUser', value: this.$validator})
   },
   methods: {
     ...mapMutations(['updateForm']),
@@ -173,14 +172,6 @@ export default {
     handleUpdateField({ field, value }) {
       this.updateForm({ field, value })
     },
-
-    handleSendForm() {
-      this.$validator.validateAll().then((value) => {
-        console.log('opa', value)
-      }).catch((value) => {
-        console.log('catch', value)
-      })
-    }
   },
   computed: {
     form() {

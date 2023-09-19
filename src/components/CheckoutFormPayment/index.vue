@@ -43,7 +43,7 @@
 
 <script>
 import PaymentCard from '@/components/CheckoutPaymentCard/index.vue'
-import CheckoutFactory from '@/components/CheckoutFactory/index.vue'
+import CheckoutFactory from '@/components/CheckoutCardFactory/index.vue'
 
 export default {
   name: 'CheckoutFormPayment',
@@ -85,7 +85,13 @@ export default {
       this.active = value
     },
     handleSendForm() {
-      this.$validator.validateAll().then((value) => {
+      this.$store.state.form.validatorUser.validateAll().then((value) => {
+        console.log('opa', value)
+      }).catch((value) => {
+        console.log('catch', value)
+      })
+
+      this.$store.state.form.validatorPayment.validateAll().then((value) => {
         console.log('opa', value)
       }).catch((value) => {
         console.log('catch', value)

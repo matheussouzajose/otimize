@@ -20,6 +20,15 @@ export default new Vuex.Store({
             creditCardName: '',
             creditCardNumber: '',
             documentNumber: '',
+            creditCardMonthValue: '',
+            creditCardMonthLabel: '',
+            creditCardYearValue: '',
+            creditCardYearLabel: '',
+            installmentsNumberValue: '',
+            installmentsNumberLabel: '',
+            creditCardCVV: '',
+            validatorUser: null,
+            validatorPayment: null
         },
         errors: {},
     },
@@ -39,7 +48,7 @@ export default new Vuex.Store({
     },
     actions: {
         validateForm({ commit, state }) {
-            console.log('state', state)
+            console.log(state)
             return new Promise((resolve, reject) => {
                 // Valide os campos do formulário com VeeValidate
                 this.$validator.validateAll().then((result) => {
