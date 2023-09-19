@@ -3,9 +3,8 @@
       v-model="selectedOption"
       @change="emitSelectedValue"
       class="border border-gray-300 rounded-lg bg-white text-gray-500 text-sm p-1 md:p-2.5 focus:outline-none focus:border-brand-main focus:ring-1 focus:ring-brand-main">
-    <option value="">Alterar país</option>
-    <option value="portuguese">Português</option>
-    <option value="english">Inglês</option>
+    <option value="" disabled>{{ labelOption }}</option>
+    <option v-for="option in optionsList" :key="option.value" :value="option.value">{{ option.label }}</option>
   </select>
 </template>
 
@@ -14,7 +13,18 @@ export default {
   name: 'CountrySelect',
   data() {
     return {
-      selectedOption: ''
+      selectedOption: '',
+      labelOption: 'Alterar país',
+      optionsList: [
+          {
+            value: 'portuguese',
+            label: 'Português'
+          },
+        {
+          value: 'english',
+          label: 'Inglês'
+        }
+      ]
     }
   },
   methods: {

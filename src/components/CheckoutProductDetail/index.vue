@@ -3,17 +3,17 @@
     <div class="relative p-4">
       <div class="flex mb-4">
         <div class="w-2/6">
-          <img class="w-40 h-40 rounded" src="../../assets/images/otimize-product.png" alt="product">
+          <img class="w-40 h-40 rounded" :src="product.image" :alt="product.name">
         </div>
         <div class="w-4/6 ml-2 pt-12">
           <div class="text-sm md:text-base font-bold leading-normal text-gray-900">
-            Nome do produto
+            {{product.name}}
           </div>
           <div class="text-md md:text-xl font-semibold leading-normal text-brand-main">
-            R$ 50,00 / mês
+            {{ product.value | money }} / {{ product.plan.toLowerCase() }}
           </div>
           <div class="text-xs font-normal leading-normal">
-            Plano mensal com renovação automática
+            {{ product.message }}
           </div>
         </div>
       </div>
@@ -26,11 +26,19 @@
 
 <script>
 
-import CountrySelect from "@/components/CountrySelect/index.vue";
+import CountrySelect from '@/components/CountrySelect/index.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'CheckoutProductDetail',
-  components: {CountrySelect},
+  components: {
+    CountrySelect
+  },
+  computed: {
+    ...mapState({
+      product: 'product'
+    })
+  },
   methods: {
     handleSelectedOption(value) {
       console.log('country selected: ', value)

@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+import product from '@/assets/images/otimize-product.png'
+
 export default new Vuex.Store({
     state: {
         form: {
@@ -29,6 +31,13 @@ export default new Vuex.Store({
             creditCardCVV: '',
             validatorUser: null,
             validatorPayment: null
+        },
+        product: {
+          name: 'Nome do produto',
+          image: product,
+          value: 40,
+          plan: 'Mês',
+          message: 'Plano mensal com renovação automática'
         },
         errors: {},
     },
