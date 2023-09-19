@@ -85,17 +85,17 @@ export default {
       this.active = value
     },
     handleSendForm() {
-      this.$store.state.form.validatorUser.validateAll().then((value) => {
+      this.$store.state.formUser.validator.validateAll().then((value) => {
         console.log('opa', value)
       }).catch((value) => {
         console.log('catch', value)
       })
-
-      this.$store.state.form.validatorPayment.validateAll().then((value) => {
-        console.log('opa', value)
-      }).catch((value) => {
-        console.log('catch', value)
-      })
+      //
+      // this.$store.state.form.validatorPayment.validateAll().then((value) => {
+      //   console.log('opa', value)
+      // }).catch((value) => {
+      //   console.log('catch', value)
+      // })
     }
   }
 }

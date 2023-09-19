@@ -1,7 +1,7 @@
 import services from '@/services'
 import store from '@/store/checkout/index'
 
-const DATA = {
+const INFOS_ADDRESS = {
     logradouro: 'address',
     bairro: 'neighborhood',
     localidade: 'city',
@@ -12,17 +12,16 @@ export default function useViaCep () {
     const getAddressByZipCode = async (zipcode) => {
         try {
             const { data } = await services.viacep.getAddress(zipcode)
-            console.log({data})
             if (!data.erro) {
                 for (const dataKey in data) {
-                    store.commit('updateForm', {
-                        field: DATA[dataKey],
+                    store.commit('updateFormInputUser', {
+                        field: INFOS_ADDRESS[dataKey],
                         value: data[dataKey]
                     })
                 }
                 return
             }
-            store.commit('resetAddressValues')
+            store.commit('resetFormUser')
         } catch (e) {
             console.error('Ocorreu um erro: ', e)
         }

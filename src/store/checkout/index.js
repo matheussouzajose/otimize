@@ -7,6 +7,23 @@ import product from '@/assets/images/otimize-product.png'
 
 export default new Vuex.Store({
     state: {
+        formUser: {
+            input: {
+                name: '',
+                email: '',
+                cellphone: '',
+                zipcode: '',
+                address: '',
+                number: '',
+                complement: '',
+                neighborhood: '',
+                city: '',
+                stateValue: '',
+                stateLabel: '',
+            },
+            errors: {},
+            validator: null
+        },
         form: {
             name: '',
             email: '',
@@ -33,30 +50,39 @@ export default new Vuex.Store({
             validatorPayment: null
         },
         product: {
-          name: 'Nome do produto',
-          image: product,
-          value: 40,
-          plan: 'Mês',
-          message: 'Plano mensal com renovação automática'
+            name: 'Nome do produto',
+            image: product,
+            value: 40,
+            plan: 'Mês',
+            message: 'Plano mensal com renovação automática'
         },
         errors: {},
     },
     mutations: {
-        updateForm(state, { field, value }) {
+        updateFormInputUser(state, {field, value}) {
+            state.formUser.input[field] = value
+        },
+        updateFormUser(state, {field, value}) {
+            state.formUser[field] = value
+        },
+        resetFormUser(state) {
+            state.formUser.input.address = ''
+            state.formUser.input.number = ''
+            state.formUser.input.complement = ''
+            state.formUser.input.neighborhood = ''
+            state.formUser.input.city = ''
+            state.formUser.input.stateValue = ''
+            state.formUser.input.stateLabel = ''
+        },
+        updateForm(state, {field, value}) {
             state.form[field] = value
         },
         defineErrors(state, errors) {
             state.errors = errors;
-        },
-        resetAddressValues(state) {
-            state.form.address = ''
-            state.form.neighborhood = ''
-            state.form.city = ''
-            state.form.stateLabel = ''
         }
     },
     actions: {
-        validateForm({ commit, state }) {
+        validateForm({commit, state}) {
             console.log(state)
             return new Promise((resolve, reject) => {
                 // Valide os campos do formulário com VeeValidate

@@ -6,7 +6,7 @@
             @update:value="handleUpdateField"
             name="name"
             label="Nome"
-            v-model="form.name"
+            v-model="formUser.input.name"
             rules="required"
             placeholder="Digite seu nome completo"
         />
@@ -17,7 +17,7 @@
             @update:value="handleUpdateField"
             name="email"
             label="Email"
-            v-model="form.email"
+            v-model="formUser.input.email"
             rules="required|email"
             placeholder="Digite seu email"
         />
@@ -28,7 +28,7 @@
             @update:value="handleUpdateField"
             name="cellphone"
             label="Telefone"
-            v-model="form.cellphone"
+            v-model="formUser.input.cellphone"
             rules="required"
             placeholder="(00) x0000-0000"
             v-mask="'(##) #####-####'"
@@ -40,7 +40,7 @@
             @update:value="handleUpdateField"
             name="zipcode"
             label="CEP"
-            v-model="form.zipcode"
+            v-model="formUser.input.zipcode"
             rules="required"
             placeholder="Digite seu CEP"
             v-mask="'#####-###'"
@@ -53,7 +53,7 @@
             @update:value="handleUpdateField"
             name="address"
             label="Endereço"
-            v-model="form.address"
+            v-model="formUser.input.address"
             rules="required"
             placeholder="Digite seu endereço"
             :disabled="true"
@@ -72,7 +72,7 @@
                 id="number"
                 name="number"
                 :disabled="isCheckedNumber"
-                v-model="form.number"
+                v-model="formUser.input.number"
                 class=" w-full px-4 py-2 text-sm text-gray-400 rounded focus:outline-none focus:border-transparent"
                 placeholder="Número"
                 v-validate="'required'"
@@ -98,7 +98,7 @@
             @update:value="handleUpdateField"
             name="complement"
             label="Complemento"
-            v-model="form.complement"
+            v-model="formUser.input.complement"
             placeholder="Digite seu complemento"
         />
       </div>
@@ -108,7 +108,7 @@
             @update:value="handleUpdateField"
             name="neighborhood"
             label="Bairro"
-            v-model="form.neighborhood"
+            v-model="formUser.input.neighborhood"
             rules="required"
             placeholder="Digite seu bairro"
             :disabled="true"
@@ -120,7 +120,7 @@
             @update:value="handleUpdateField"
             name="city"
             label="Cidade"
-            v-model="form.city"
+            v-model="formUser.input.city"
             rules="required"
             placeholder="Digite sua cidade"
             :disabled="true"
@@ -131,7 +131,7 @@
         <div class="flex flex-col items-start self-stretch gap-2 ">
           <label for="state" class="text-md font-normal font-sans leading-5">Estado</label>
           <select disabled v-model="stateSelectedOption" class="flex gap-2.5 bg-white self-stretch px-4 py-2 border border-gray-300 rounded focus:outline focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-400">
-            <option :value="form.stateValue">{{ form.stateLabel }}</option>
+            <option :value="formUser.input.stateValue">{{ formUser.input.stateLabel }}</option>
           </select>
         </div>
       </div>
@@ -141,7 +141,7 @@
 
 <script>
 import InputField from '@/components/InputField/index.vue'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import useViaCep from '@/hooks/useViaCep'
 
 const viaCep = useViaCep()
@@ -158,10 +158,10 @@ export default {
     }
   },
   created() {
-    this.updateForm({ field: 'validatorUser', value: this.$validator})
+    this.updateFormUser({ field: 'validator', value: this.$validator})
   },
   methods: {
-    ...mapMutations(['updateForm']),
+    ...mapMutations(['updateFormInputUser', 'updateFormUser']),
 
     handleGetAddress(value) {
       if (!value || value.length < 9) return
@@ -170,16 +170,13 @@ export default {
     },
 
     handleUpdateField({ field, value }) {
-      this.updateForm({ field, value })
+      this.updateFormInputUser({ field, value })
     },
   },
   computed: {
-    form() {
-      return this.$store.state.form
-    },
-    errors() {
-      return this.$store.state.errors;
-    }
+    ...mapState({
+      formUser: 'formUser'
+    })
   }
 }
 
