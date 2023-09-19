@@ -29,9 +29,7 @@
     <div class="py-6 flex flex-col">
       <checkout-factory :name="active" />
 
-      <button @click="handleSendForm" class="bg-orange-500 mt-6 rounded w-2/3 h-14 text-white text-lg font-medium">
-        Comprar Agora
-      </button>
+      <button-card title="Comprar agora" />
 
       <div class="mt-10 self-center">
         <img :src="securityImg" alt="security">
@@ -44,11 +42,13 @@
 <script>
 import PaymentCard from '@/components/CheckoutFormPayment/PaymentCard.vue'
 import CheckoutFactory from '@/components/CheckoutCardFactory/index.vue'
+import ButtonCard from '@/components/CheckoutFormPayment/ButtonPayment.vue'
 import securityImg from '@/assets/images/otimize-security.png'
 
 export default {
   name: 'CheckoutFormPayment',
   components: {
+    ButtonCard,
     CheckoutFactory,
     PaymentCard
   },
@@ -76,19 +76,6 @@ export default {
   methods: {
     handleSelected(value) {
       this.active = value
-    },
-    handleSendForm() {
-      this.$store.state.formUser.validator.validateAll().then((value) => {
-        console.log('opa', value)
-      }).catch((value) => {
-        console.log('catch', value)
-      })
-      //
-      // this.$store.state.form.validatorPayment.validateAll().then((value) => {
-      //   console.log('opa', value)
-      // }).catch((value) => {
-      //   console.log('catch', value)
-      // })
     }
   }
 }

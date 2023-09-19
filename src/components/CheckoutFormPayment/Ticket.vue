@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import Card from '@/components/Card/index.vue'
+import Card from '@/components/DefaultCard/index.vue'
 import PurchaseDetailFactory from "@/components/PurchaseDetailFactory/index.vue";
 import InputDocumentNumber from "@/components/PurchaseDetailFactory/InputDocumentNumber.vue";
 

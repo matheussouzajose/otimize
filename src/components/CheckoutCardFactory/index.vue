@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import CheckoutCreditCard from '@/components/CheckoutCreditCard/index.vue'
-import CheckoutPix from '@/components/CheckoutPix/index.vue'
-import CheckoutTicket from '@/components/CheckoutTicket/index.vue'
+import CheckoutCreditCard from '@/components/CheckoutFormPayment/CreditCard.vue'
+import CheckoutPix from '@/components/CheckoutFormPayment/Pix.vue'
+import CheckoutTicket from '@/components/CheckoutFormPayment/Ticket.vue'
 
 export default {
   name: 'CheckoutFactory',
